@@ -33,7 +33,7 @@ console.log(result.candidates); // every candidate found, best-first
 Pass `grabImage: true` to also download the winning icon's bytes:
 
 ```ts
-const result = await getFavicon("https://example.com", { fetchImage: true });
+const result = await getFavicon("https://example.com", { grabImage: true });
 
 if (result.image) {
   console.log(result.image.mimeType); // e.g. "image/png"
