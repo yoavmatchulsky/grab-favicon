@@ -40,7 +40,8 @@ export interface GetFaviconOptions {
   userAgent?: string;
   googleFallbackSize?: number;
   fetch?: typeof fetch;
-  // Skip the manifest fetch and ranking, and return the first icon found
-  // in the page head instead of the best one. Trades accuracy for speed.
+  // Skip ranking and return the first candidate found instead of the best
+  // one. The manifest fetch is skipped too, but only once the page head
+  // has already yielded a candidate. Trades accuracy for speed.
   fast?: boolean;
 }
