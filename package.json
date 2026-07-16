@@ -32,12 +32,15 @@
   "dependencies": {
     "node-html-parser": "^7.0.0"
   },
+  "overrides": {
+    "esbuild": "^0.28.1"
+  },
   "devDependencies": {
     "@biomejs/biome": "^2.4.0",
     "@types/node": "^20.0.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0",
-    "vitest": "^2.0.0"
+    "vitest": "^4.1.10"
   },
   "keywords": [
     "favicon",
