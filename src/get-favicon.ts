@@ -2,6 +2,7 @@ import { DEFAULT_TIMEOUT_MS } from "./constants";
 import { InvalidFaviconUrlError } from "./errors";
 import { extractHead } from "./extract-head";
 import { buildGoogleFallback, tryFaviconIco } from "./fallback";
+import type { FetchedHtml } from "./fetch-html";
 import { fetchPageHtml } from "./fetch-html";
 import { fetchManifestIcons } from "./manifest";
 import { parseIconLinks } from "./parse-icons";
@@ -45,27 +46,38 @@ async function downloadImage(
   }
 }
 
+// Gathers candidates from the page head and, if present, its web manifest.
+// In fast mode, skips the manifest fetch once the head alone has yielded at
+// least one candidate.
+async function getCandidates(
+  htmlResult: FetchedHtml | null,
+  options: GetFaviconOptions,
+): Promise<FaviconCandidate[]> {
+  if (!htmlResult) return [];
+
+  const head = extractHead(htmlResult.html);
+  const { candidates, manifestUrl } = parseIconLinks(head, htmlResult.finalUrl);
+
+  if (options.fast && candidates.length > 0) {
+    return candidates;
+  }
+
+  if (manifestUrl) {
+    const manifestCandidates = await fetchManifestIcons(manifestUrl, options);
+    candidates.push(...manifestCandidates);
+  }
+
+  return candidates;
+}
+
 export async function getFavicon(
   url: string,
   options: GetFaviconOptions = {},
 ): Promise<FaviconResult> {
   const inputUrl = parseAndValidateUrl(url);
-  let candidates: FaviconCandidate[] = [];
 
   const htmlResult = await fetchPageHtml(url, options);
-  if (htmlResult) {
-    const head = extractHead(htmlResult.html);
-    const { candidates: iconCandidates, manifestUrl } = parseIconLinks(
-      head,
-      htmlResult.finalUrl,
-    );
-    candidates.push(...iconCandidates);
-
-    if (!options.fast && manifestUrl) {
-      const manifestCandidates = await fetchManifestIcons(manifestUrl, options);
-      candidates.push(...manifestCandidates);
-    }
-  }
+  let candidates = await getCandidates(htmlResult, options);
 
   let best: FaviconCandidate;
 

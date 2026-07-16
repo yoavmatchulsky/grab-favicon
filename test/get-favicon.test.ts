@@ -135,6 +135,29 @@ describe("getFavicon", () => {
     expect(manifestRoute).not.toHaveBeenCalled();
   });
 
+  it("still checks the manifest in fast mode when the head has no icon candidates", async () => {
+    const manifest = JSON.stringify({
+      icons: [{ src: "/icons/192.png", sizes: "192x192", type: "image/png" }],
+    });
+    const fetchImpl = makeFetch([
+      (url) =>
+        url === "https://example.com/"
+          ? htmlPage('<link rel="manifest" href="/manifest.json">')
+          : null,
+      (url) =>
+        url === "https://example.com/manifest.json"
+          ? new Response(manifest, { status: 200 })
+          : null,
+    ]);
+
+    const result = await getFavicon("https://example.com/", {
+      fetch: fetchImpl,
+      fast: true,
+    });
+    expect(result.url).toBe("https://example.com/icons/192.png");
+    expect(result.source).toBe("manifest");
+  });
+
   it("falls back to /favicon.ico when the page has no icon links", async () => {
     const fetchImpl = makeFetch([
       (url) => (url === "https://example.com/" ? htmlPage("") : null),
