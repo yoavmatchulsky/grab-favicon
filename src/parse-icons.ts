@@ -5,8 +5,8 @@ import {
   isVectorFormat,
   parseSizes,
   resolveUrl,
-} from "./icon-utils.js";
-import type { FaviconCandidate, FaviconSource } from "./types.js";
+} from "./icon-utils";
+import type { FaviconCandidate, FaviconSource } from "./types";
 
 export interface ParsedIcons {
   candidates: FaviconCandidate[];

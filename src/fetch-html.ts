@@ -2,7 +2,7 @@ import {
   DEFAULT_TIMEOUT_MS,
   DEFAULT_USER_AGENT,
   HEAD_SCAN_WINDOW_BYTES,
-} from "./constants.js";
+} from "./constants";
 
 export interface FetchOptions {
   timeoutMs?: number;

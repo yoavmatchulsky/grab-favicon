@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { InvalidFaviconUrlError } from "../src/errors.js";
-import { getFavicon } from "../src/get-favicon.js";
+import { InvalidFaviconUrlError } from "../src/errors";
+import { getFavicon } from "../src/get-favicon";
 
 type Route = (url: string) => Response | null;
 

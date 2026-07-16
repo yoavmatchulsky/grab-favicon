@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fetchManifestIcons } from "../src/manifest.js";
+import { fetchManifestIcons } from "../src/manifest";
 
 const fixturesDir = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
 const manifestJson = readFileSync(

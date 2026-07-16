@@ -1,5 +1,5 @@
-export { InvalidFaviconUrlError } from "./errors.js";
-export { getFavicon } from "./get-favicon.js";
+export { InvalidFaviconUrlError } from "./errors";
+export { getFavicon } from "./get-favicon";
 export type {
   FaviconCandidate,
   FaviconImage,
@@ -7,4 +7,4 @@ export type {
   FaviconSize,
   FaviconSource,
   GetFaviconOptions,
-} from "./types.js";
+} from "./types";

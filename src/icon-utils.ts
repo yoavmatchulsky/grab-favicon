@@ -1,4 +1,4 @@
-import type { FaviconSize } from "./types.js";
+import type { FaviconSize } from "./types";
 
 const EXTENSION_MIME_MAP: Record<string, string> = {
   svg: "image/svg+xml",

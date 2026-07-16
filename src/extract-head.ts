@@ -1,4 +1,4 @@
-import { HEAD_SCAN_WINDOW_BYTES } from "./constants.js";
+import { HEAD_SCAN_WINDOW_BYTES } from "./constants";
 
 const HEAD_TAG_PATTERN = /<head[^>]*>([\s\S]*?)<\/head>/i;
 

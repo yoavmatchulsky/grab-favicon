@@ -1,13 +1,13 @@
-import type { FetchOptions } from "./fetch-html.js";
-import { fetchOk } from "./fetch-html.js";
+import type { FetchOptions } from "./fetch-html";
+import { fetchOk } from "./fetch-html";
 import {
   inferFormatFromUrl,
   isUsableIconUrl,
   isVectorFormat,
   parseSizes,
   resolveUrl,
-} from "./icon-utils.js";
-import type { FaviconCandidate } from "./types.js";
+} from "./icon-utils";
+import type { FaviconCandidate } from "./types";
 
 interface ManifestIcon {
   src?: string;

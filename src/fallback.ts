@@ -1,10 +1,10 @@
 import {
   DEFAULT_GOOGLE_FALLBACK_SIZE,
   GOOGLE_FALLBACK_BASE_URL,
-} from "./constants.js";
-import type { FetchOptions } from "./fetch-html.js";
-import { fetchOk } from "./fetch-html.js";
-import type { FaviconCandidate } from "./types.js";
+} from "./constants";
+import type { FetchOptions } from "./fetch-html";
+import { fetchOk } from "./fetch-html";
+import type { FaviconCandidate } from "./types";
 
 export async function tryFaviconIco(
   origin: string,

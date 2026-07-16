@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { fetchOk, fetchPageHtml } from "../src/fetch-html.js";
+import { fetchOk, fetchPageHtml } from "../src/fetch-html";
 
 afterEach(() => {
   vi.unstubAllGlobals();

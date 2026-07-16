@@ -1,4 +1,4 @@
-import type { FaviconCandidate } from "./types.js";
+import type { FaviconCandidate } from "./types";
 
 function score(candidate: FaviconCandidate): number {
   if (candidate.isVector) return Number.POSITIVE_INFINITY;

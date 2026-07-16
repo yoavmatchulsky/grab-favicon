@@ -1,17 +1,17 @@
-import { DEFAULT_TIMEOUT_MS } from "./constants.js";
-import { InvalidFaviconUrlError } from "./errors.js";
-import { extractHead } from "./extract-head.js";
-import { buildGoogleFallback, tryFaviconIco } from "./fallback.js";
-import { fetchPageHtml } from "./fetch-html.js";
-import { fetchManifestIcons } from "./manifest.js";
-import { parseIconLinks } from "./parse-icons.js";
-import { pickBest, sortByScore } from "./rank.js";
+import { DEFAULT_TIMEOUT_MS } from "./constants";
+import { InvalidFaviconUrlError } from "./errors";
+import { extractHead } from "./extract-head";
+import { buildGoogleFallback, tryFaviconIco } from "./fallback";
+import { fetchPageHtml } from "./fetch-html";
+import { fetchManifestIcons } from "./manifest";
+import { parseIconLinks } from "./parse-icons";
+import { pickBest, sortByScore } from "./rank";
 import type {
   FaviconCandidate,
   FaviconImage,
   FaviconResult,
   GetFaviconOptions,
-} from "./types.js";
+} from "./types";
 
 function parseAndValidateUrl(url: string): URL {
   let parsed: URL;

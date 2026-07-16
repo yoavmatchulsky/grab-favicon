@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { pickBest, sortByScore } from "../src/rank.js";
-import type { FaviconCandidate } from "../src/types.js";
+import { pickBest, sortByScore } from "../src/rank";
+import type { FaviconCandidate } from "../src/types";
 
 function candidate(overrides: Partial<FaviconCandidate>): FaviconCandidate {
   return {

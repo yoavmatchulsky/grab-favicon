@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { parseIconLinks } from "../src/parse-icons.js";
+import { parseIconLinks } from "../src/parse-icons";
 
 const fixturesDir = join(dirname(fileURLToPath(import.meta.url)), "fixtures");
 
