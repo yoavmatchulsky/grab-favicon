@@ -1,4 +1,3 @@
-import type { FetchOptions } from "./fetch-html";
 import { fetchOk } from "./fetch-html";
 import {
   inferFormatFromUrl,
@@ -7,18 +6,7 @@ import {
   parseSizes,
   resolveUrl,
 } from "./icon-utils";
-import type { FaviconCandidate } from "./types";
-
-interface ManifestIcon {
-  src?: string;
-  sizes?: string;
-  type?: string;
-  purpose?: string;
-}
-
-interface WebAppManifest {
-  icons?: ManifestIcon[];
-}
+import type { FaviconCandidate, FetchOptions, WebAppManifest } from "./types";
 
 export async function fetchManifestIcons(
   manifestUrl: string,

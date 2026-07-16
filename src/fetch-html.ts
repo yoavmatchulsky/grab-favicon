@@ -4,17 +4,7 @@ import {
   HEAD_SCAN_WINDOW_BYTES,
   HEAD_STOP_PATTERN,
 } from "./constants";
-
-export interface FetchOptions {
-  timeoutMs?: number;
-  userAgent?: string;
-  fetch?: typeof fetch;
-}
-
-export interface FetchedHtml {
-  html: string;
-  finalUrl: string;
-}
+import type { FetchedHtml, FetchOptions } from "./types";
 
 async function fetchWithTimeout(
   url: string,

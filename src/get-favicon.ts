@@ -2,7 +2,6 @@ import { DEFAULT_TIMEOUT_MS } from "./constants";
 import { InvalidFaviconUrlError } from "./errors";
 import { extractHead } from "./extract-head";
 import { buildGoogleFallback, tryFaviconIco } from "./fallback";
-import type { FetchedHtml } from "./fetch-html";
 import { fetchPageHtml } from "./fetch-html";
 import { fetchManifestIcons } from "./manifest";
 import { parseIconLinks } from "./parse-icons";
@@ -11,6 +10,7 @@ import type {
   FaviconCandidate,
   FaviconImage,
   FaviconResult,
+  FetchedHtml,
   GetFaviconOptions,
 } from "./types";
 

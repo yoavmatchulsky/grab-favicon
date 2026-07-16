@@ -6,12 +6,7 @@ import {
   parseSizes,
   resolveUrl,
 } from "./icon-utils";
-import type { FaviconCandidate, FaviconSource } from "./types";
-
-export interface ParsedIcons {
-  candidates: FaviconCandidate[];
-  manifestUrl?: string;
-}
+import type { FaviconCandidate, FaviconSource, ParsedIcons } from "./types";
 
 function classifyRel(rel: string): FaviconSource | "manifest" | undefined {
   const tokens = rel.split(/\s+/);
