@@ -1,4 +1,8 @@
-import { DEFAULT_TIMEOUT_MS, DEFAULT_USER_AGENT } from "./constants.js";
+import {
+  DEFAULT_TIMEOUT_MS,
+  DEFAULT_USER_AGENT,
+  HEAD_SCAN_WINDOW_BYTES,
+} from "./constants.js";
 
 export interface FetchOptions {
   timeoutMs?: number;
@@ -10,6 +14,8 @@ export interface FetchedHtml {
   html: string;
   finalUrl: string;
 }
+
+const HEAD_STOP_PATTERN = /<\/head\b|<body\b/i;
 
 async function fetchWithTimeout(
   url: string,
@@ -30,6 +36,36 @@ async function fetchWithTimeout(
   }
 }
 
+// Reads only as much of the response body as it takes to see a closing
+// </head> or an opening <body> tag, then cancels the underlying stream so
+// the rest of the page (images, scripts, markup) is never downloaded.
+// Falls back to a hard byte cap for malformed pages that never close <head>.
+async function readUntilHeadEnd(response: Response): Promise<string> {
+  const body = response.body;
+  if (!body) return response.text();
+
+  const reader = body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  try {
+    while (buffer.length < HEAD_SCAN_WINDOW_BYTES) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      if (HEAD_STOP_PATTERN.test(buffer)) break;
+    }
+  } finally {
+    try {
+      await reader.cancel();
+    } catch {
+      // Stream may already be closed/errored; nothing to clean up.
+    }
+  }
+
+  return buffer;
+}
+
 export async function fetchPageHtml(
   url: string,
   opts: FetchOptions = {},
@@ -40,7 +76,7 @@ export async function fetchPageHtml(
   });
   if (!response) return null;
   try {
-    const html = await response.text();
+    const html = await readUntilHeadEnd(response);
     return { html, finalUrl: response.url || url };
   } catch {
     return null;
