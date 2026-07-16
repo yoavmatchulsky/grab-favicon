@@ -35,9 +35,9 @@ export interface FaviconResult {
 }
 
 export interface GetFaviconOptions {
+  grabImage?: boolean;
   timeoutMs?: number;
   userAgent?: string;
-  fetchImage?: boolean;
   googleFallbackSize?: number;
   fetch?: typeof fetch;
 }

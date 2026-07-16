@@ -30,7 +30,7 @@ console.log(result.candidates); // every candidate found, best-first
 
 ### Downloading the image
 
-Pass `fetchImage: true` to also download the winning icon's bytes:
+Pass `grabImage: true` to also download the winning icon's bytes:
 
 ```ts
 const result = await getFavicon("https://example.com", { fetchImage: true });
@@ -48,9 +48,9 @@ while the rest of the result (the resolved URL and metadata) is still returned.
 
 ```ts
 interface GetFaviconOptions {
+  grabImage?: boolean;         // default false
   timeoutMs?: number;          // per-request timeout, default 8000
   userAgent?: string;          // default is a realistic desktop Chrome UA
-  fetchImage?: boolean;        // default false
   googleFallbackSize?: number; // size (px) requested from the Google fallback, default 64
   fetch?: typeof fetch;        // inject a custom fetch implementation (useful for testing)
 }

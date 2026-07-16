@@ -131,7 +131,7 @@ describe("getFavicon", () => {
     expect(result.source).toBe("google-fallback");
   });
 
-  it("downloads the image when fetchImage is true", async () => {
+  it("downloads the image when grabImage is true", async () => {
     const fetchImpl = makeFetch([
       (url) =>
         url === "https://example.com/"
@@ -150,7 +150,7 @@ describe("getFavicon", () => {
 
     const result = await getFavicon("https://example.com/", {
       fetch: fetchImpl,
-      fetchImage: true,
+      grabImage: true,
     });
     expect(result.image?.mimeType).toBe("image/png");
     expect(result.image?.data).toBeInstanceOf(Buffer);
@@ -169,7 +169,7 @@ describe("getFavicon", () => {
 
     const result = await getFavicon("https://example.com/", {
       fetch: fetchImpl,
-      fetchImage: true,
+      grabImage: true,
     });
     expect(result.url).toBe("https://example.com/icon.png");
     expect(result.image).toBeUndefined();

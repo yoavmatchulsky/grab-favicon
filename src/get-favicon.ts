@@ -93,7 +93,7 @@ export async function getFavicon(
     candidates,
   };
 
-  if (options.fetchImage) {
+  if (options.grabImage) {
     result.image = await downloadImage(best.url, options);
   }
 
