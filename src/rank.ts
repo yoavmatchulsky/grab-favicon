@@ -11,7 +11,7 @@ function score(candidate: FaviconCandidate): number {
 export function sortByScore(
   candidates: FaviconCandidate[],
 ): FaviconCandidate[] {
-  return [...candidates].sort((a, b) => score(b) - score(a));
+  return candidates.toSorted((a, b) => score(b) - score(a));
 }
 
 export function pickBest(
