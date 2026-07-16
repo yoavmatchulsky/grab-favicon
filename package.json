@@ -1,9 +1,17 @@
 {
   "name": "grab-favicon",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Find the best favicon for a website URL",
   "license": "MIT",
   "author": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoavmatchulsky/grab-favicon.git"
+  },
+  "homepage": "https://github.com/yoavmatchulsky/grab-favicon#readme",
+  "bugs": {
+    "url": "https://github.com/yoavmatchulsky/grab-favicon/issues"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
