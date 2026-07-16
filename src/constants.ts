@@ -8,3 +8,5 @@ export const GOOGLE_FALLBACK_BASE_URL = "https://www.google.com/s2/favicons";
 export const DEFAULT_GOOGLE_FALLBACK_SIZE = 64;
 
 export const HEAD_SCAN_WINDOW_BYTES = 200_000;
+
+export const HEAD_STOP_PATTERN = /<\/head\b|<body\b/i;

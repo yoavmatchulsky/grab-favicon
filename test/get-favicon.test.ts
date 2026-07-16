@@ -93,6 +93,48 @@ describe("getFavicon", () => {
     expect(result.source).toBe("manifest");
   });
 
+  it("returns the first icon found instead of the best one when fast is true", async () => {
+    const fetchImpl = makeFetch([
+      (url) =>
+        url === "https://example.com/"
+          ? htmlPage(
+              '<link rel="icon" href="/small.png" sizes="16x16" type="image/png">' +
+                '<link rel="icon" href="/icon.svg" type="image/svg+xml">',
+            )
+          : null,
+    ]);
+
+    const result = await getFavicon("https://example.com/", {
+      fetch: fetchImpl,
+      fast: true,
+    });
+    expect(result.url).toBe("https://example.com/small.png");
+  });
+
+  it("skips the manifest fetch entirely when fast is true", async () => {
+    const manifestRoute = vi.fn(
+      () => new Response(JSON.stringify({ icons: [] }), { status: 200 }),
+    );
+    const fetchImpl = makeFetch([
+      (url) =>
+        url === "https://example.com/"
+          ? htmlPage(
+              '<link rel="icon" href="/small.png" sizes="16x16" type="image/png">' +
+                '<link rel="manifest" href="/manifest.json">',
+            )
+          : null,
+      (url) =>
+        url === "https://example.com/manifest.json" ? manifestRoute() : null,
+    ]);
+
+    const result = await getFavicon("https://example.com/", {
+      fetch: fetchImpl,
+      fast: true,
+    });
+    expect(result.url).toBe("https://example.com/small.png");
+    expect(manifestRoute).not.toHaveBeenCalled();
+  });
+
   it("falls back to /favicon.ico when the page has no icon links", async () => {
     const fetchImpl = makeFetch([
       (url) => (url === "https://example.com/" ? htmlPage("") : null),

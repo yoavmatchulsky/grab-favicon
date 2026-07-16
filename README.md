@@ -44,11 +44,25 @@ if (result.image) {
 Image download failures never throw — `result.image` is simply left `undefined`
 while the rest of the result (the resolved URL and metadata) is still returned.
 
+### Fast mode
+
+Pass `fast: true` to skip the manifest fetch and the size/vector ranking, and
+just return the first icon link found in the page head:
+
+```ts
+const result = await getFavicon("https://example.com", { fast: true });
+```
+
+This trades accuracy (you may not get the largest or a vector icon) for speed
+(one fewer network round trip, no ranking). If the page has no icon links at
+all, the usual `/favicon.ico` → Google fallback chain still applies.
+
 ### Options
 
 ```ts
 interface GetFaviconOptions {
   grabImage?: boolean;         // default false
+  fast?: boolean;               // default false — return the first icon found, skip manifest + ranking
   timeoutMs?: number;          // per-request timeout, default 8000
   userAgent?: string;          // default is a realistic desktop Chrome UA
   googleFallbackSize?: number; // size (px) requested from the Google fallback, default 64

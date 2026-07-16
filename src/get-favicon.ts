@@ -50,11 +50,9 @@ export async function getFavicon(
   options: GetFaviconOptions = {},
 ): Promise<FaviconResult> {
   const inputUrl = parseAndValidateUrl(url);
-
-  const htmlResult = await fetchPageHtml(url, options);
-
   let candidates: FaviconCandidate[] = [];
 
+  const htmlResult = await fetchPageHtml(url, options);
   if (htmlResult) {
     const head = extractHead(htmlResult.html);
     const { candidates: iconCandidates, manifestUrl } = parseIconLinks(
@@ -63,7 +61,7 @@ export async function getFavicon(
     );
     candidates.push(...iconCandidates);
 
-    if (manifestUrl) {
+    if (!options.fast && manifestUrl) {
       const manifestCandidates = await fetchManifestIcons(manifestUrl, options);
       candidates.push(...manifestCandidates);
     }
@@ -72,9 +70,13 @@ export async function getFavicon(
   let best: FaviconCandidate;
 
   if (candidates.length > 0) {
-    candidates = sortByScore(candidates);
-    // Non-null: pickBest only returns undefined for an empty array.
-    best = pickBest(candidates) as FaviconCandidate;
+    if (options.fast) {
+      best = candidates[0];
+    } else {
+      candidates = sortByScore(candidates);
+      // Non-null: pickBest only returns undefined for an empty array.
+      best = pickBest(candidates) as FaviconCandidate;
+    }
   } else {
     const origin = new URL(htmlResult?.finalUrl ?? inputUrl.toString()).origin;
     const icoCandidate = await tryFaviconIco(origin, options);

@@ -2,6 +2,7 @@ import {
   DEFAULT_TIMEOUT_MS,
   DEFAULT_USER_AGENT,
   HEAD_SCAN_WINDOW_BYTES,
+  HEAD_STOP_PATTERN,
 } from "./constants";
 
 export interface FetchOptions {
@@ -14,8 +15,6 @@ export interface FetchedHtml {
   html: string;
   finalUrl: string;
 }
-
-const HEAD_STOP_PATTERN = /<\/head\b|<body\b/i;
 
 async function fetchWithTimeout(
   url: string,
