@@ -44,4 +44,5 @@ export interface GetFaviconOptions {
   // one. The manifest fetch is skipped too, but only once the page head
   // has already yielded a candidate. Trades accuracy for speed.
   fast?: boolean;
+  preferVector?: boolean;
 }

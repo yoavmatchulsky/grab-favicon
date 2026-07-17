@@ -15,54 +15,56 @@ describe("pickBest", () => {
   it("returns undefined for an empty list", () => {
     expect(pickBest([])).toBeUndefined();
   });
+});
 
-  it("prefers a vector icon over a larger raster icon", () => {
+describe("sortByScore", () => {
+  it("prefers a regular raster icon over a svg icon", () => {
     const svg = candidate({ url: "a.svg", isVector: true });
     const bigPng = candidate({
       url: "b.png",
       isVector: false,
       sizes: { width: 512, height: 512 },
     });
-    expect(pickBest([bigPng, svg])).toBe(svg);
+    expect(sortByScore([svg, bigPng])).toEqual([bigPng, svg]);
   });
 
-  it("prefers the largest declared size among raster candidates", () => {
-    const small = candidate({
-      url: "small.png",
-      sizes: { width: 16, height: 16 },
-    });
-    const large = candidate({
-      url: "large.png",
-      sizes: { width: 256, height: 256 },
-    });
-    expect(pickBest([small, large])).toBe(large);
-  });
-
-  it("prefers a known size over an unknown size, but still picks unknown if it's the only one", () => {
+  it("prefers a known size over an unknown size", () => {
     const unknown = candidate({ url: "unknown.png" });
     const known = candidate({
       url: "known.png",
       sizes: { width: 32, height: 32 },
     });
-    expect(pickBest([unknown, known])).toBe(known);
-    expect(pickBest([unknown])).toBe(unknown);
+    expect(sortByScore([unknown, known])).toEqual([known, unknown]);
   });
 
   it("breaks ties by discovery order", () => {
     const first = candidate({ url: "first.png", source: "link-icon" });
     const second = candidate({ url: "second.png", source: "apple-touch-icon" });
-    expect(pickBest([first, second])).toBe(first);
+    expect(sortByScore([first, second])).toEqual([first, second]);
   });
-});
-
-describe("sortByScore", () => {
+  
   it("sorts candidates best-first without mutating the input", () => {
     const input = [
       candidate({ url: "small.png", sizes: { width: 16, height: 16 } }),
       candidate({ url: "svg.svg", isVector: true }),
       candidate({ url: "large.png", sizes: { width: 256, height: 256 } }),
     ];
-    const sorted = sortByScore(input);
+    const sorted = sortByScore(input, {});
+    expect(sorted.map((c) => c.url)).toEqual([
+      "large.png",
+      "small.png",
+      "svg.svg",
+    ]);
+    expect(input[0].url).toBe("small.png");
+  });
+
+  it("sorts candidates best-first and prefer svg", () => {
+    const input = [
+      candidate({ url: "small.png", sizes: { width: 16, height: 16 } }),
+      candidate({ url: "svg.svg", isVector: true }),
+      candidate({ url: "large.png", sizes: { width: 256, height: 256 } }),
+    ];
+    const sorted = sortByScore(input, { preferVector: true });
     expect(sorted.map((c) => c.url)).toEqual([
       "svg.svg",
       "large.png",
