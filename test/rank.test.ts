@@ -42,7 +42,7 @@ describe("sortByScore", () => {
     const second = candidate({ url: "second.png", source: "apple-touch-icon" });
     expect(sortByScore([first, second])).toEqual([first, second]);
   });
-  
+
   it("sorts candidates best-first without mutating the input", () => {
     const input = [
       candidate({ url: "small.png", sizes: { width: 16, height: 16 } }),

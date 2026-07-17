@@ -1,8 +1,15 @@
 import type { FaviconCandidate, GetFaviconOptions } from "./types";
 
-function score(candidate: FaviconCandidate, options: GetFaviconOptions): number {
-  if (options.preferVector && candidate.isVector) return Number.POSITIVE_INFINITY;
-  if (candidate.sizes) return candidate.sizes.width * candidate.sizes.height;
+function score(
+  candidate: FaviconCandidate,
+  options: GetFaviconOptions,
+): number {
+  if (options.preferVector && candidate.isVector) {
+    return Number.POSITIVE_INFINITY;
+  }
+  if (candidate.sizes) {
+    return candidate.sizes.width * candidate.sizes.height;
+  }
   return -1;
 }
 
