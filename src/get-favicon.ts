@@ -85,8 +85,7 @@ export async function getFavicon(
     if (options.fast) {
       best = candidates[0];
     } else {
-      candidates = sortByScore(candidates);
-      // Non-null: pickBest only returns undefined for an empty array.
+      candidates = sortByScore(candidates, options);
       best = pickBest(candidates) as FaviconCandidate;
     }
   } else {

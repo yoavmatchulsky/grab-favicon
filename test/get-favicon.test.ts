@@ -50,7 +50,7 @@ describe("getFavicon", () => {
     expect(result.candidates).toHaveLength(2);
   });
 
-  it("prefers an SVG icon over a larger PNG icon", async () => {
+  it("prefers an SVG icon over a larger PNG icon with preferVector", async () => {
     const fetchImpl = makeFetch([
       (url) =>
         url === "https://example.com/"
@@ -63,6 +63,7 @@ describe("getFavicon", () => {
 
     const result = await getFavicon("https://example.com/", {
       fetch: fetchImpl,
+      preferVector: true,
     });
     expect(result.url).toBe("https://example.com/icon.svg");
     expect(result.isVector).toBe(true);
