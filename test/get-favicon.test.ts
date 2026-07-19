@@ -159,7 +159,7 @@ describe("getFavicon", () => {
     expect(result.source).toBe("manifest");
   });
 
-  it("returns svg if preferVector even if fast is true", async() => {
+  it("returns svg if preferVector even if fast is true", async () => {
     const fetchImpl = makeFetch([
       (url) =>
         url === "https://example.com/"
