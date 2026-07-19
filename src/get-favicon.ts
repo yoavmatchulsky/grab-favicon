@@ -59,7 +59,7 @@ async function getCandidates(
   const { candidates, manifestUrl } = parseIconLinks(head, htmlResult.finalUrl);
 
   if (options.fast && candidates.length > 0) {
-    return candidates;
+    return sortByScore(candidates, options);
   }
 
   if (manifestUrl) {

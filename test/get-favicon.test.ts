@@ -159,6 +159,25 @@ describe("getFavicon", () => {
     expect(result.source).toBe("manifest");
   });
 
+  it("returns svg if preferVector even if fast is true", async() => {
+    const fetchImpl = makeFetch([
+      (url) =>
+        url === "https://example.com/"
+          ? htmlPage(
+              '<link rel="icon" href="/favicon.png" type="image/png">' +
+                '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
+            )
+          : null,
+    ]);
+
+    const result = await getFavicon("https://example.com/", {
+      fetch: fetchImpl,
+      fast: true,
+      preferVector: true,
+    });
+    expect(result.url).toBe("https://example.com/favicon.svg");
+  });
+
   it("falls back to /favicon.ico when the page has no icon links", async () => {
     const fetchImpl = makeFetch([
       (url) => (url === "https://example.com/" ? htmlPage("") : null),
